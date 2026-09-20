@@ -3,146 +3,101 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>High Class — Carolina Leaners</title>
-<meta name="description" content="High Class — a Carolina Leaners truck meet community. Competitions, events, and custom fabrication.">
-<link rel="stylesheet" href="style.css">
+<title>High Class</title>
+<style>
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{height:100%;}
+  body{
+    background:#000;
+    color:#EDEDED;
+    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+    padding:32px;
+  }
+  .card{
+    text-align:center;
+    max-width:420px;
+    width:100%;
+  }
+  .logo{
+    width:150px;
+    height:auto;
+    margin-bottom:28px;
+    filter: drop-shadow(0 0 24px rgba(255,255,255,0.06));
+  }
+  .tagline{
+    font-size:14px;
+    letter-spacing:0.06em;
+    color:#8A8A8A;
+    margin-bottom:40px;
+    text-transform:uppercase;
+  }
+  .links{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .links a{
+    display:block;
+    padding:14px 20px;
+    border:1px solid #2A2A2A;
+    border-radius:4px;
+    color:#EDEDED;
+    text-decoration:none;
+    font-size:15px;
+    font-weight:500;
+    transition:border-color 0.15s ease, background 0.15s ease;
+  }
+  .links a:hover{
+    border-color:#EDEDED;
+    background:#0D0D0D;
+  }
+  .links a.primary{
+    background:#EDEDED;
+    color:#000;
+    border-color:#EDEDED;
+    font-weight:600;
+  }
+  .links a.primary:hover{
+    background:#fff;
+  }
+  .tiktoks{
+    display:flex;
+    gap:10px;
+    margin-top:12px;
+  }
+  .tiktoks a{
+    flex:1;
+    font-size:13px;
+    padding:12px 8px;
+  }
+  footer{
+    margin-top:44px;
+    font-size:12px;
+    color:#4A4A4A;
+  }
+</style>
 </head>
 <body>
 
-<script>
-  const DISCORD_INVITE = "https://discord.gg/YOUR-INVITE-CODE"; // <-- replace
-  const SQUARE_SHOP_URL = "https://highclassfabs.square.site";
-</script>
+  <div class="card">
+    <img class="logo" src="assets/logo.png" alt="High Class logo">
+    <div class="tagline">Roblox Truck Club and Fabrication</div>
 
-<header>
-  <div class="nav-row">
-    <a href="index.html" class="brand">
-      <img src="logo.png" alt="High Class">
-      <span class="brand-text">HIGH <span>CLASS</span></span>
-    </a>
-    <nav>
-      <ul>
-        <li><a href="index.html#about">About</a></li>
-        <li><a href="#" onclick="window.open(SQUARE_SHOP_URL, '_blank'); return false;">Fabrication</a></li>
-        <li><a href="index.html#competition">Competition</a></li>
-        <li><a href="index.html#events">Events</a></li>
-        <li><a href="index.html#rules">Rules</a></li>
-      </ul>
-    </nav>
-    <a href="#" class="nav-cta" onclick="window.open(DISCORD_INVITE, '_blank'); return false;">Join Discord</a>
-  </div>
-</header>
-
-<section class="hero">
-  <div class="wrap hero-inner">
-    <div class="hero-eyebrow">Carolina Leaners</div>
-    <h1>Built lifted. Built loud. Built by us.</h1>
-    <p>High Class is a truck meet community for Carolina Leaners — show builds, dig rigs, and a community
-       that actually knows what it's looking at. Competitions, events, and custom fabrication, all in one place.</p>
-    <div class="hero-actions">
-      <a href="#" class="btn btn-primary" onclick="window.open(DISCORD_INVITE, '_blank'); return false;">Join the Discord</a>
-      <a href="#" class="btn btn-outline" onclick="window.open(SQUARE_SHOP_URL, '_blank'); return false;">Browse Fabrication</a>
-    </div>
-  </div>
-</section>
-
-<section class="block" id="about">
-  <div class="wrap">
-    <div class="section-head"><h2>What High Class Is</h2></div>
-    <p class="section-lede" style="max-width: 680px;">
-      A community built around Carolina Leaners — truck meets, build competitions, and a server run
-      by people who actually work on trucks. Whether you're building a show truck or a dig rig, this
-      is where it gets seen.
-    </p>
-  </div>
-</section>
-
-<section class="block" id="shop-teaser">
-  <div class="wrap">
-    <div class="section-head">
-      <h2>Featured Fabrication</h2>
-      <a href="#" class="see-all" onclick="window.open(SQUARE_SHOP_URL, '_blank'); return false;">View full shop →</a>
-    </div>
-    <p class="section-lede">Custom brackets, mounts, and bumpers — fabricated to order, sold through Discord.</p>
-
-    <div class="item-grid">
-      <div class="item-card">
-        <div class="item-photo"><span>Photo coming soon</span></div>
-        <div class="item-body">
-          <span class="item-tag">Brackets & Mounts</span>
-          <div class="item-name">Traction Bar Bracket Set</div>
-          <div class="item-desc">Weld-on traction bar mounting brackets, sized to your axle. Sold as a pair.</div>
-          <div class="item-foot">
-            <span class="item-price">$45</span>
-            <a href="#" class="item-order-btn" onclick="window.open(SQUARE_SHOP_URL, '_blank'); return false;">View</a>
-          </div>
-        </div>
-      </div>
-      <div class="item-card">
-        <div class="item-photo"><span>Photo coming soon</span></div>
-        <div class="item-body">
-          <span class="item-tag">Bumpers & Guards</span>
-          <div class="item-name">Front Tube Bumper</div>
-          <div class="item-desc">Full tube-style front bumper with integrated light mounts.</div>
-          <div class="item-foot">
-            <span class="item-price">$120</span>
-            <a href="#" class="item-order-btn" onclick="window.open(SQUARE_SHOP_URL, '_blank'); return false;">View</a>
-          </div>
-        </div>
-      </div>
-      <div class="item-card">
-        <div class="item-photo"><span>Photo coming soon</span></div>
-        <div class="item-body">
-          <span class="item-tag">Suspension</span>
-          <div class="item-name">Long-Arm Link Set</div>
-          <div class="item-desc">Fabricated long-arm suspension links, built to your wheelbase.</div>
-          <div class="item-foot">
-            <span class="item-price">$110</span>
-            <a href="#" class="item-order-btn" onclick="window.open(SQUARE_SHOP_URL, '_blank'); return false;">View</a>
-          </div>
-        </div>
+    <div class="links">
+      <a class="primary" href="https://discord.gg/3sxHnyNNq" target="_blank" rel="noopener">Join the Discord</a>
+      <div class="tiktoks">
+        <a href="https://www.tiktok.com/@highclasslive" target="_blank" rel="noopener">@highclasslive</a>
+        <a href="https://www.tiktok.com/@highclassofficial1" target="_blank" rel="noopener">@solariumedits1</a>
+        <a href="https://www.tiktok.com/@5harvo" target="_blank" rel="noopener">@5harvo</a>
       </div>
     </div>
-  </div>
-</section>
 
-<section class="block" id="competition">
-  <div class="wrap">
-    <div class="section-head"><h2>Truck Competition</h2></div>
-    <p class="section-lede" style="max-width: 680px;">
-      Two categories — Show Trucks and Dig / Bubba Rigs — judged on a real rubric by multiple judges.
-      Results and past winners will be posted here once the current round closes.
-    </p>
-    <a href="#" class="btn btn-outline">See rubric & rules</a>
+    <footer>highclasstrucks.com</footer>
   </div>
-</section>
-
-<section class="block" id="events">
-  <div class="wrap">
-    <div class="section-head"><h2>Upcoming Events</h2></div>
-    <p class="section-lede">Live calendar coming soon — for now, check #events in Discord.</p>
-  </div>
-</section>
-
-<section class="block" id="rules" style="border-bottom: none;">
-  <div class="wrap">
-    <div class="section-head"><h2>Server Rules</h2></div>
-    <p class="section-lede" style="max-width: 680px;">
-      Full rules are posted in Discord. Short version: be real about your builds, respect staff decisions,
-      and don't be the reason someone has a bad time.
-    </p>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap footer-row">
-    <div class="muted">© High Class. Carolina Leaners community.</div>
-    <div class="social-row">
-      <a href="#" onclick="window.open(SQUARE_SHOP_URL, '_blank'); return false;">Fabrication</a>
-      <a href="#" onclick="window.open(DISCORD_INVITE, '_blank'); return false;">Discord</a>
-    </div>
-  </div>
-</footer>
 
 </body>
 </html>
