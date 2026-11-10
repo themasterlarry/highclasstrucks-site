@@ -48,7 +48,17 @@
 
   /* ---------- A: Night meet -- photos fill the page ---------- */
   .A .wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px}
-  .A #bg{position:fixed;inset:0;z-index:-1}
+  .A #bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.A .wrap {
+    position: relative;
+    z-index: 1;
+}
   .A #bg::after{content:"";position:absolute;inset:0;background:linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.55) 45%,rgba(0,0,0,.9))}
   .A .links a:not(.primary){background:rgba(0,0,0,.75)}
 
