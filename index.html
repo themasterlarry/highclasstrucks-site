@@ -109,6 +109,15 @@
     if (--left > 0) return;
     found = found.filter(Boolean);
     if (!found.length) return;
+
+    // Randomize photo order on every page load
+    for (var i = found.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = found[i];
+      found[i] = found[j];
+      found[j] = temp;
+    }
+    if (!found.length) return;
     ["bg"].forEach(function (id, k) {
       var box = document.getElementById(id);
       found.forEach(function (src, i) {
