@@ -4,101 +4,290 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>High Class</title>
+<meta name="description" content="High Class – Roblox truck meet roleplay.">
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  *{box-sizing:border-box; margin:0; padding:0;}
-  html,body{height:100%;}
-  body{
-    background:#000;
-    color:#EDEDED;
-    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    min-height:100vh;
-    padding:32px;
-  }
-  .card{
-    text-align:center;
-    max-width:420px;
-    width:100%;
-  }
-  .logo{
-    width:150px;
-    height:auto;
-    margin-bottom:28px;
-    filter: drop-shadow(0 0 24px rgba(255,255,255,0.06));
-  }
-  .tagline{
-    font-size:14px;
-    letter-spacing:0.06em;
-    color:#8A8A8A;
-    margin-bottom:40px;
-    text-transform:uppercase;
-  }
-  .links{
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-  }
-  .links a{
-    display:block;
-    padding:14px 20px;
-    border:1px solid #2A2A2A;
-    border-radius:4px;
-    color:#EDEDED;
-    text-decoration:none;
-    font-size:15px;
-    font-weight:500;
-    transition:border-color 0.15s ease, background 0.15s ease;
-  }
-  .links a:hover{
-    border-color:#EDEDED;
-    background:#0D0D0D;
-  }
-  .links a.primary{
-    background:#EDEDED;
-    color:#000;
-    border-color:#EDEDED;
-    font-weight:600;
-  }
-  .links a.primary:hover{
-    background:#fff;
-  }
-  .tiktoks{
-    display:flex;
-    gap:10px;
-    margin-top:12px;
-  }
-  .tiktoks a{
-    flex:1;
-    font-size:13px;
-    padding:12px 8px;
-  }
-  footer{
-    margin-top:44px;
-    font-size:12px;
-    color:#4A4A4A;
-  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#000;color:#E8E8EA;font-family:'Manrope',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;min-height:100vh}
+  a{color:inherit;text-decoration:none}
+  /* 3D chrome logo (rendered live with three.js); the flat image shows only if 3D can't run */
+  .logo3d{position:relative;width:min(440px,94vw);aspect-ratio:11/7;margin:-24px auto 4px;left:50%;transform:translateX(-50%)}
+  .logo3d canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+  .logo3d img{position:absolute;left:50%;top:50%;width:271px;max-width:80%;transform:translate(-50%,-50%)}
+  .logo3d.live img{display:none}
+  .tagline{font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;text-align:center;color:#9A9A9A}
+  .suits{text-align:center;color:#5c5c63;font-size:13px;letter-spacing:.9em;text-indent:.9em;margin-top:10px}
+  .count{font-size:13px;color:#8a8a92;margin-top:6px;min-height:20px;text-align:center}
+  .links{display:flex;flex-direction:column;gap:12px;margin-top:30px}
+  .links a{display:block;text-align:center;padding:14px 20px;border:1px solid #2A2A2A;border-radius:4px;color:#EDEDED;background:#000;font-size:15px;font-weight:600;transition:border-color .15s,background .15s}
+  .links a:hover{border-color:#EDEDED;background:#0D0D0D}
+  .links a.primary{background:#EDEDED;border-color:#EDEDED;color:#000;font-weight:600}
+  .links a.primary:hover{background:#fff}
+  .tiktoks{display:flex;gap:10px}.tiktoks a{flex:1;font-size:13px;padding:12px 6px;overflow-wrap:anywhere}
+  /* photo tiles in the button stack: two photos, then a third with "+N" */
+  .shots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .group{margin-top:18px}
+  .group[hidden]{display:none}
+  .glabel{font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#7A7A80;text-align:center;margin-bottom:10px}
+  .shots button{position:relative;padding:0;aspect-ratio:4/3;border:1px solid #2A2A2A;border-radius:4px;overflow:hidden;background:#0a0a0a;cursor:pointer}
+  .shots img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
+  .shots button:hover{border-color:#EDEDED}
+  .shots button:hover img{transform:scale(1.06)}
+  .shots .more{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.55);color:#fff;font-size:17px;font-weight:700}
+  footer{margin-top:36px;font-size:12px;color:#55555c;text-align:center}
+  .fade div{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.6s}
+  .fade div.on{opacity:1}
+  #view{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);align-items:center;justify-content:center;padding:20px;cursor:pointer;z-index:9}
+  #view img{max-width:100%;max-height:88vh;border-radius:6px}
+  #view .nav{position:absolute;top:50%;transform:translateY(-50%);background:none;border:0;color:#fff;font-size:44px;padding:10px 18px;cursor:pointer;opacity:.75}
+  #view .nav:hover{opacity:1}#view .p{left:6px}#view .n{right:6px}
+  .card{width:100%;max-width:420px}
+
+  /* ---------- A: Night meet -- photos fill the page ---------- */
+  .A .wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px}
+  .A #bg{position:fixed;inset:0;z-index:-1}
+  .A #bg::after{content:"";position:absolute;inset:0;background:linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.55) 45%,rgba(0,0,0,.9))}
+  .A .links a:not(.primary){background:rgba(0,0,0,.75)}
+
 </style>
 </head>
-<body>
+<body class="A">
 
+
+<div id="bg" class="fade"></div>
+
+<div class="wrap">
   <div class="card">
-    <img class="logo" src="assets/logo.png" alt="High Class logo">
+    <div class="logo3d" id="logo3d"><img src="assets/logo-cards.webp" alt="High Class"></div>
     <div class="tagline">Roblox Truck Meet Roleplay</div>
-
+    <div class="suits">♠♥♦♣</div>
+    <div class="count" id="count"></div>
     <div class="links">
       <a class="primary" href="https://discord.gg/highclass" target="_blank" rel="noopener">Join the Discord</a>
-      <a href="https://staff.highclasstrucks.com" rel="noopener">Member Portal &amp; Applications</a>
-      <div class="tiktoks">
+      <a href="https://staff.highclasstrucks.com/apply">Apply for Membership &amp; Staff</a>
+      <a href="https://staff.highclasstrucks.com">Member Portal</a>
+      <div class="group" id="shotgroup" hidden><div class="glabel">From the meets</div><div class="shots" id="shots"></div></div>
+      <div class="group"><div class="glabel">TikTok</div><div class="tiktoks">
+        <a href="https://www.tiktok.com/@officialhighclass" target="_blank" rel="noopener">@officialhighclass</a>
         <a href="https://www.tiktok.com/@highclasslive" target="_blank" rel="noopener">@highclasslive</a>
-        <a href="https://www.tiktok.com/@solariumedits1" target="_blank" rel="noopener">@solariumedits1</a>
-        <a href="https://www.tiktok.com/@5harvo" target="_blank" rel="noopener">@5harvo</a>
-      </div>
+        <a href="https://www.tiktok.com/@ohdats..ky" target="_blank" rel="noopener">@ohdats..ky</a>
+      </div></div>
     </div>
-
-    <footer>highclasstrucks.com</footer>
+    <footer>♠&nbsp; highclasstrucks.com &nbsp;♠</footer>
   </div>
+</div>
 
+<div id="view"><button class="nav p" aria-label="Previous">‹</button><img alt=""><button class="nav n" aria-label="Next">›</button></div>
+
+<script>
+  // truck screenshots -- put them in assets/trucks/ (missing ones are skipped)
+  var photos = ["1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg", "6.jpg"];
+
+  var found = [], left = photos.length;
+  photos.forEach(function (name, i) {
+    var src = name.indexOf("http") === 0 ? name : "assets/trucks/" + name;
+    var img = new Image();
+    img.onload = function () { found[i] = src; done(); };
+    img.onerror = done;
+    img.src = src;
+  });
+
+  function done() {
+    if (--left > 0) return;
+    found = found.filter(Boolean);
+    if (!found.length) return;
+    ["bg"].forEach(function (id, k) {
+      var box = document.getElementById(id);
+      found.forEach(function (src, i) {
+        var d = document.createElement("div");
+        d.style.backgroundImage = "url('" + src + "')";
+        if (i === k % found.length) d.className = "on";
+        box.insertBefore(d, box.firstChild);
+      });
+    });
+    setInterval(function () {
+      ["bg"].forEach(function (id) {
+        var L = [].filter.call(document.getElementById(id).children, function (e) { return e.tagName === "DIV"; });
+        var n = L.findIndex(function (e) { return e.className === "on"; });
+        L[n].className = ""; L[(n + 1) % L.length].className = "on";
+      });
+    }, 7000);
+    var shots = document.getElementById("shots");
+    found.slice(0, 3).forEach(function (src, i) {
+      var b = document.createElement("button");
+      b.setAttribute("aria-label", "Open photo " + (i + 1));
+      b.innerHTML = '<img src="' + src + '" alt="High Class meet">' +
+        (i === 2 && found.length > 3 ? '<span class="more">+' + (found.length - 3) + '</span>' : "");
+      b.onclick = function () { show(i); };
+      shots.appendChild(b);
+    });
+    document.getElementById("shotgroup").hidden = false;
+  }
+
+  var view = document.getElementById("view"), at = 0;
+  function show(i) { at = (i + found.length) % found.length; view.querySelector("img").src = found[at]; view.style.display = "flex"; }
+  view.onclick = function (e) { if (e.target === view || e.target.tagName === "IMG") view.style.display = "none"; };
+  view.querySelector(".p").onclick = function () { show(at - 1); };
+  view.querySelector(".n").onclick = function () { show(at + 1); };
+  document.addEventListener("keydown", function (e) {
+    if (view.style.display !== "flex") return;
+    if (e.key === "Escape") view.style.display = "none";
+    if (e.key === "ArrowLeft") show(at - 1);
+    if (e.key === "ArrowRight") show(at + 1);
+  });
+
+
+  fetch("https://discord.com/api/v10/invites/highclass?with_counts=true")
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (j) {
+      if (!j || !j.approximate_member_count) return;
+      document.getElementById("count").textContent =
+        j.approximate_member_count.toLocaleString() + " members · " + j.approximate_presence_count.toLocaleString() + " online";
+    }).catch(function () {});
+</script>
+
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from "three";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+
+const box = document.getElementById("logo3d");
+try {
+  const SH = {"text":[[["M",0.95264,0.69678],["L",0.95898,0.69678],["Q",0.96191,0.69678,0.96265,0.69629],["Q",0.96338,0.6958,0.9646,0.69556],["Q",0.96582,0.69531,0.9668,0.69434],["Q",0.96924,0.69238,0.97363,0.68994],["Q",0.97949,0.68555,0.97949,0.67969],["Q",0.97949,0.67383,0.96802,0.65552],["Q",0.95654,0.63721,0.90918,0.56445],["Q",0.7998,0.39697,0.71338,0.25391],["Q",0.56396,0.00537,0.5625,0.00391],["Q",0.56104,0.00244,0.56055,0.00098],["Q",0.56006,-0.00195,0.55664,-0.00195],["L",0.5498,-0.00049],["L",0.53662,-0.00391],["L",0.52881,-0.00244],["L",0.52051,-0.00391],["L",0.51758,-0.00391],["L",0.49023,-0.00781],["Q",0.46582,-0.00781,0.46582,0.00879],["Q",0.46582,0.01562,0.47021,0.02588],["Q",0.48535,0.06152,0.62256,0.28516],["Q",0.53223,0.28271,0.44434,0.28271],["L",0.33936,0.2832],["Q",0.31348,0.2417,0.26855,0.16553],["Q",0.17139,-0.00049,0.16504,-0.0022],["Q",0.15869,-0.00391,0.15479,-0.00391],["Q",0.15088,-0.00391,0.14746,0.00073],["Q",0.14404,0.00537,0.14282,0.00537],["Q",0.1416,0.00537,0.1377,0.00342],["Q",0.13379,0.00146,0.12646,0.00146],["L",0.11523,0.00195],["L",0.11084,0.00488],["Q",0.11035,0.00488,0.10962,0.00342],["Q",0.10889,0.00195,0.10596,0.00195],["Q",0.08496,0.00195,0.08496,0.01953],["Q",0.08496,0.03125,0.09326,0.05029],["Q",0.10156,0.06934,0.11499,0.0918],["Q",0.12842,0.11426,0.18433,0.198],["Q",0.24023,0.28174,0.24023,0.28223],["Q",0.23096,0.28271,0.21875,0.2832],["Q",0.19385,0.2832,0.18359,0.28516],["Q",0.15576,0.29004,0.14551,0.33105],["Q",0.14014,0.35107,0.14062,0.35742],["Q",0.14062,0.37061,0.15186,0.37061],["L",0.16455,0.36719],["Q",0.17432,0.3667,0.21143,0.36475],["Q",0.24854,0.36279,0.26465,0.36279],["L",0.29248,0.36377],["Q",0.35596,0.46338,0.44434,0.58887],["Q",0.37988,0.53613,0.30127,0.53613],["Q",0.26416,0.53613,0.2373,0.55396],["Q",0.21045,0.57178,0.21045,0.59912],["Q",0.21045,0.62646,0.23096,0.64233],["Q",0.25146,0.6582,0.27002,0.6582],["Q",0.28857,0.6582,0.28857,0.65234],["Q",0.28857,0.65039,0.28345,0.64795],["Q",0.27832,0.64551,0.27832,0.64307],["Q",0.27832,0.63525,0.29541,0.62915],["Q",0.3125,0.62305,0.33374,0.62305],["Q",0.35498,0.62305,0.38623,0.6355],["Q",0.41748,0.64795,0.45117,0.66748],["Q",0.49805,0.69482,0.52539,0.71289],["Q",0.54102,0.7207,0.55469,0.7207],["Q",0.56836,0.7207,0.57446,0.71753],["Q",0.58057,0.71436,0.5835,0.71118],["Q",0.58643,0.70801,0.58984,0.70288],["Q",0.59326,0.69775,0.59644,0.69507],["Q",0.59961,0.69238,0.59961,0.68896],["Q",0.59961,0.68555,0.59595,0.67822],["Q",0.59229,0.6709,0.55859,0.6189],["Q",0.5249,0.56689,0.47192,0.48608],["Q",0.41895,0.40527,0.39453,0.36719],["Q",0.5249,0.36719,0.67627,0.37207],["Q",0.86035,0.6626,0.87061,0.67676],["Q",0.88086,0.69092,0.88916,0.69531],["Q",0.89746,0.69971,0.90967,0.69971],["Z"]],[["M",1.09814,0.53613],["Q",1.09814,0.5083,1.07227,0.48022],["Q",1.04639,0.45215,1.01831,0.45215],["Q",0.99023,0.45215,0.99023,0.48145],["Q",0.99023,0.51074,1.01489,0.53735],["Q",1.03955,0.56396,1.06934,0.56396],["Q",1.08252,0.56396,1.09033,0.55664],["Q",1.09814,0.54932,1.09814,0.53613],["Z"],["M",1.01904,0.10986],["Q",1.01904,0.09521,1.01611,0.08887],["Q",0.99219,0.04004,0.93994,0.01001],["Q",0.8877,-0.02002,0.84912,-0.02002],["Q",0.81055,-0.02002,0.78271,0.00586],["Q",0.75488,0.03174,0.75488,0.05859],["Q",0.75488,0.08545,0.78174,0.13672],["Q",0.80859,0.18799,0.83545,0.23145],["Q",0.8623,0.2749,0.8623,0.27856],["Q",0.8623,0.28223,0.85229,0.29297],["Q",0.84229,0.30371,0.84229,0.30884],["Q",0.84229,0.31396,0.86255,0.33569],["Q",0.88281,0.35742,0.91187,0.37866],["Q",0.94092,0.3999,0.9563,0.3999],["Q",0.97168,0.3999,0.98389,0.38623],["Q",0.99609,0.37256,0.99609,0.36133],["Q",0.99609,0.3501,0.87988,0.1499],["Q",0.87842,0.14697,0.87183,0.13696],["Q",0.86523,0.12695,0.86157,0.12036],["Q",0.85791,0.11377,0.85303,0.10449],["Q",0.84326,0.08496,0.84326,0.07178],["Q",0.84326,0.05518,0.86572,0.05518],["Q",0.88818,0.05518,0.91235,0.07056],["Q",0.93652,0.08594,0.9541,0.10449],["Q",1.0,0.15381,1.00635,0.15381],["Q",1.01904,0.15381,1.01904,0.10986],["Z"]],[["M",1.34863,0.37305],["Q",1.36768,0.39502,1.396,0.39648],["Q",1.4043,0.39697,1.4165,0.39697],["Q",1.42871,0.39697,1.43164,0.3938],["Q",1.43457,0.39062,1.43701,0.38184],["Q",1.43945,0.37305,1.43994,0.37207],["Q",1.44043,0.37109,1.44043,0.3689],["Q",1.44043,0.3667,1.43799,0.36353],["Q",1.43555,0.36035,1.43237,0.35742],["Q",1.4292,0.35449,1.42871,0.354],["Q",1.3208,0.19922,1.20801,0.00098],["Q",1.32422,0.104,1.41602,0.14893],["Q",1.42188,0.15186,1.42725,0.15186],["Q",1.43506,0.15186,1.4375,0.14185],["Q",1.43994,0.13184,1.43994,0.11328],["Q",1.43994,0.09473,1.43774,0.09033],["Q",1.43555,0.08594,1.41504,0.07275],["Q",1.39453,0.05957,1.36182,0.03857],["Q",1.3291,0.01758,1.29248,-0.00781],["Q",1.20459,-0.06885,1.14795,-0.13623],["Q",1.07471,-0.22461,1.04297,-0.27881],["Q",1.03125,-0.2998,1.00342,-0.2998],["Q",0.94824,-0.2998,0.94824,-0.24756],["Q",0.94824,-0.19434,1.00049,-0.13867],["Q",1.03955,-0.09717,1.07227,-0.0708],["Q",1.10498,-0.04443,1.10791,-0.04102],["Q",1.14404,0.01318,1.20605,0.11279],["Q",1.15332,0.05762,1.10376,0.0249],["Q",1.0542,-0.00781,1.02979,-0.00781],["Q",0.95508,-0.00781,0.95508,0.05615],["Q",0.95508,0.10693,0.98096,0.15869],["Q",1.00684,0.21045,1.04736,0.25122],["Q",1.08789,0.29199,1.13501,0.32446],["Q",1.18213,0.35693,1.22754,0.37451],["Q",1.27295,0.39209,1.30615,0.39209],["Q",1.33936,0.39209,1.34863,0.37305],["Z"],["M",1.3208,0.33691],["Q",1.26416,0.32471,1.21436,0.29663],["Q",1.16455,0.26855,1.13232,0.23657],["Q",1.1001,0.20459,1.07666,0.1709],["Q",1.03271,0.10791,1.03271,0.07324],["Q",1.03271,0.06494,1.03687,0.06494],["Q",1.04102,0.06494,1.05542,0.07373],["Q",1.06982,0.08252,1.09619,0.10376],["Q",1.12256,0.125,1.15479,0.1543],["Q",1.22949,0.22314,1.3208,0.33691],["Z"]],[["M",1.83105,0.14404],["Q",1.83447,0.12158,1.83447,0.10864],["Q",1.83447,0.0957,1.82983,0.08618],["Q",1.8252,0.07666,1.80933,0.05933],["Q",1.79346,0.04199,1.77148,0.02441],["Q",1.71777,-0.01807,1.66162,-0.01807],["Q",1.58105,-0.01807,1.58105,0.05322],["Q",1.58105,0.11523,1.68896,0.30029],["Q",1.69287,0.30713,1.69434,0.31006],["Q",1.65674,0.28369,1.55054,0.16626],["Q",1.44434,0.04883,1.40918,0.0],["Q",1.40625,-0.00439,1.39453,-0.00977],["Q",1.38281,-0.01514,1.37622,-0.01514],["Q",1.36963,-0.01514,1.36206,-0.01099],["Q",1.35449,-0.00684,1.35254,-0.00684],["Q",1.34619,-0.00684,1.34619,-0.00269],["Q",1.34619,0.00146,1.36353,0.04224],["Q",1.38086,0.08301,1.40918,0.14355],["Q",1.48682,0.31055,1.64014,0.57812],["Q",1.69385,0.67188,1.72412,0.71094],["Q",1.74561,0.73877,1.79639,0.73877],["Q",1.80713,0.73877,1.80859,0.73242],["Q",1.81006,0.72607,1.81006,0.71875],["Q",1.81006,0.71143,1.80713,0.7041],["L",1.75488,0.62256],["Q",1.59961,0.38037,1.521,0.22119],["Q",1.59717,0.31396,1.66895,0.36426],["Q",1.71338,0.396,1.7356,0.396],["Q",1.75781,0.396,1.77588,0.38892],["Q",1.79395,0.38184,1.79395,0.35498],["Q",1.79395,0.34521,1.76221,0.28271],["Q",1.66699,0.09521,1.66699,0.07446],["Q",1.66699,0.05371,1.68408,0.05371],["Q",1.70898,0.05371,1.76074,0.10205],["Q",1.7998,0.13867,1.81006,0.14893],["Q",1.81592,0.15332,1.8208,0.15332],["Q",1.83008,0.15332,1.83105,0.14404],["Z"]],[["M",2.53711,0.28467],["Q",2.54883,0.28467,2.54883,0.26587],["Q",2.54883,0.24707,2.54053,0.20117],["Q",2.53418,0.17041,2.47021,0.11328],["Q",2.39307,0.04492,2.30078,0.01562],["Q",2.24512,-0.00195,2.19214,-0.00195],["Q",2.13916,-0.00195,2.09546,0.04272],["Q",2.05176,0.0874,2.05176,0.14868],["Q",2.05176,0.20996,2.07642,0.27563],["Q",2.10107,0.34131,2.14282,0.40112],["Q",2.18457,0.46094,2.24146,0.51611],["Q",2.29834,0.57129,2.35986,0.61182],["Q",2.42139,0.65234,2.48877,0.67627],["Q",2.55615,0.7002,2.6167,0.7002],["Q",2.66455,0.7002,2.69824,0.66553],["Q",2.71582,0.64697,2.71582,0.6189],["Q",2.71582,0.59082,2.68848,0.5481],["Q",2.66113,0.50537,2.62378,0.47021],["Q",2.58643,0.43506,2.54663,0.41064],["Q",2.50684,0.38623,2.48291,0.38623],["Q",2.45898,0.38623,2.44189,0.40112],["Q",2.4248,0.41602,2.4248,0.42773],["Q",2.4248,0.43945,2.42993,0.45361],["Q",2.43506,0.46777,2.44287,0.46777],["Q",2.44092,0.46533,2.44092,0.46289],["Q",2.44092,0.45703,2.45776,0.45703],["Q",2.47461,0.45703,2.51416,0.48682],["Q",2.55371,0.5166,2.58569,0.55371],["Q",2.61768,0.59082,2.61768,0.60938],["Q",2.61768,0.62207,2.60059,0.62207],["Q",2.55469,0.62207,2.47388,0.57935],["Q",2.39307,0.53662,2.31934,0.46924],["Q",2.24561,0.40186,2.19116,0.30933],["Q",2.13672,0.2168,2.13672,0.14307],["Q",2.13672,0.1123,2.15308,0.09375],["Q",2.16943,0.0752,2.20337,0.0752],["Q",2.2373,0.0752,2.28369,0.09473],["Q",2.33008,0.11426,2.37183,0.14258],["Q",2.41357,0.1709,2.45068,0.20068],["Q",2.48779,0.23047,2.51001,0.25293],["Q",2.53223,0.27539,2.53271,0.28003],["Q",2.5332,0.28467,2.53711,0.28467],["Z"]],[["M",2.83496,0.34375],["Q",2.75,0.23535,2.67188,0.14893],["Q",2.67139,0.14307,2.66772,0.1272],["Q",2.66406,0.11133,2.66406,0.09521],["Q",2.66406,0.0791,2.67896,0.06616],["Q",2.69385,0.05322,2.71582,0.05322],["Q",2.73779,0.05322,2.76294,0.06885],["Q",2.78809,0.08447,2.80664,0.10352],["Q",2.85547,0.15381,2.86719,0.15381],["Q",2.87891,0.15381,2.87891,0.11816],["L",2.87891,0.1084],["Q",2.87891,0.08936,2.87207,0.08057],["Q",2.83105,0.03027,2.77979,0.00562],["Q",2.72852,-0.01904,2.68262,-0.01904],["Q",2.63672,-0.01904,2.61279,0.00903],["Q",2.58887,0.03711,2.58887,0.08594],["Q",2.58887,0.18115,2.63989,0.30981],["Q",2.69092,0.43848,2.75488,0.52881],["Q",2.89893,0.73291,2.9751,0.73291],["Q",2.99854,0.73291,3.01636,0.71899],["Q",3.03418,0.70508,3.03418,0.67773],["Q",3.03418,0.65039,3.00391,0.59204],["Q",2.97363,0.53369,2.93115,0.4729],["Q",2.88867,0.41211,2.83496,0.34375],["Z"],["M",2.95312,0.65186],["Q",2.95312,0.65918,2.94824,0.65918],["Q",2.93115,0.65918,2.8584,0.56152],["Q",2.78564,0.46387,2.75317,0.40576],["Q",2.7207,0.34766,2.69189,0.25977],["Q",2.74951,0.32812,2.85132,0.4729],["Q",2.95312,0.61768,2.95312,0.65186],["Z"]],[["M",3.20068,0.37109],["Q",3.23779,0.37109,3.23779,0.3457],["Q",3.23779,0.33203,3.23145,0.32568],["Q",3.2251,0.31934,3.20435,0.28345],["Q",3.18359,0.24756,3.15845,0.19165],["Q",3.1333,0.13574,3.12598,0.09619],["Q",3.12451,0.09131,3.12451,0.08252],["Q",3.12451,0.05566,3.13916,0.05566],["Q",3.15381,0.05566,3.17383,0.06958],["Q",3.19385,0.0835,3.20947,0.09937],["Q",3.2251,0.11523,3.23999,0.13184],["Q",3.25488,0.14844,3.25781,0.15088],["Q",3.26074,0.15332,3.2666,0.15332],["Q",3.27588,0.15332,3.27783,0.13916],["Q",3.27979,0.125,3.27979,0.10986],["Q",3.27979,0.09473,3.27686,0.08887],["Q",3.2627,0.06104,3.2146,0.02197],["Q",3.1665,-0.01709,3.1272,-0.01709],["Q",3.08789,-0.01709,3.06934,0.00684],["Q",3.05078,0.03076,3.05078,0.05981],["Q",3.05078,0.08887,3.06055,0.11084],["Q",3.02002,0.05811,2.96753,0.02148],["Q",2.91504,-0.01514,2.88184,-0.01514],["Q",2.84863,-0.01514,2.82764,0.00488],["Q",2.80078,0.02979,2.80078,0.07397],["Q",2.80078,0.11816,2.82056,0.16284],["Q",2.84033,0.20752,2.87256,0.24438],["Q",2.90479,0.28125,2.94336,0.31152],["Q",3.02441,0.375,3.09277,0.375],["Q",3.11914,0.375,3.13574,0.36621],["Q",3.15234,0.35742,3.15674,0.34424],["Q",3.16846,0.36182,3.17651,0.36646],["Q",3.18457,0.37109,3.20068,0.37109],["Z"],["M",3.13574,0.31689],["Q",3.05225,0.31689,2.96289,0.22412],["Q",2.93115,0.19092,2.90454,0.14453],["Q",2.87793,0.09814,2.87793,0.08105],["Q",2.87793,0.06396,2.8877,0.06396],["Q",2.90137,0.06396,2.96387,0.11792],["Q",3.02637,0.17188,3.04688,0.19727],["Q",3.06934,0.22559,3.13574,0.31689],["Z"]],[["M",3.28906,0.09766],["L",3.28857,0.08984],["Q",3.28857,0.07764,3.29785,0.06885],["Q",3.30713,0.06006,3.31494,0.06006],["Q",3.37354,0.06006,3.4187,0.07764],["Q",3.46387,0.09521,3.46387,0.11279],["Q",3.46387,0.12109,3.44751,0.1272],["Q",3.43115,0.1333,3.39233,0.14233],["Q",3.35352,0.15137,3.33594,0.15649],["Q",3.31836,0.16162,3.30811,0.16602],["Q",3.29785,0.17041,3.28711,0.17822],["Q",3.26416,0.19434,3.26416,0.22632],["Q",3.26416,0.2583,3.28784,0.28979],["Q",3.31152,0.32129,3.34717,0.34375],["Q",3.38281,0.36621,3.42383,0.3833],["Q",3.50488,0.41699,3.56006,0.41699],["Q",3.61426,0.41699,3.62695,0.39355],["Q",3.63086,0.38525,3.63086,0.375],["L",3.63086,0.37158],["Q",3.63086,0.3457,3.61987,0.33105],["Q",3.60889,0.31641,3.58521,0.30469],["Q",3.56152,0.29297,3.54761,0.29297],["Q",3.53369,0.29297,3.53003,0.29492],["Q",3.52637,0.29688,3.52393,0.30005],["Q",3.52148,0.30322,3.51782,0.30469],["Q",3.51416,0.30615,3.51416,0.31201],["Q",3.51416,0.31787,3.51904,0.32397],["Q",3.52393,0.33008,3.52588,0.33691],["Q",3.49365,0.33545,3.4585,0.32202],["Q",3.42334,0.30859,3.39819,0.29199],["Q",3.37305,0.27539,3.35645,0.26025],["Q",3.33984,0.24512,3.33984,0.23804],["Q",3.33984,0.23096,3.3623,0.22656],["Q",3.46338,0.20654,3.49512,0.19189],["Q",3.52686,0.17725,3.53906,0.15869],["Q",3.55127,0.14014,3.55127,0.125],["Q",3.55127,0.09375,3.52637,0.06592],["Q",3.50146,0.03809,3.46484,0.02051],["Q",3.38623,-0.01807,3.32788,-0.01807],["Q",3.26953,-0.01807,3.24731,-0.00024],["Q",3.2251,0.01758,3.2251,0.04199],["Q",3.2251,0.06641,3.23755,0.08716],["Q",3.25,0.10791,3.26953,0.10791],["Q",3.28906,0.10791,3.28906,0.09766],["Z"]],[["M",3.65674,0.09766],["L",3.65625,0.08984],["Q",3.65625,0.07764,3.66553,0.06885],["Q",3.6748,0.06006,3.68262,0.06006],["Q",3.74121,0.06006,3.78638,0.07764],["Q",3.83154,0.09521,3.83154,0.11279],["Q",3.83154,0.12109,3.81519,0.1272],["Q",3.79883,0.1333,3.76001,0.14233],["Q",3.72119,0.15137,3.70361,0.15649],["Q",3.68604,0.16162,3.67578,0.16602],["Q",3.66553,0.17041,3.65479,0.17822],["Q",3.63184,0.19434,3.63184,0.22632],["Q",3.63184,0.2583,3.65552,0.28979],["Q",3.6792,0.32129,3.71484,0.34375],["Q",3.75049,0.36621,3.7915,0.3833],["Q",3.87256,0.41699,3.92773,0.41699],["Q",3.98193,0.41699,3.99463,0.39355],["Q",3.99854,0.38525,3.99854,0.375],["L",3.99854,0.37158],["Q",3.99854,0.3457,3.98755,0.33105],["Q",3.97656,0.31641,3.95288,0.30469],["Q",3.9292,0.29297,3.91528,0.29297],["Q",3.90137,0.29297,3.89771,0.29492],["Q",3.89404,0.29688,3.8916,0.30005],["Q",3.88916,0.30322,3.8855,0.30469],["Q",3.88184,0.30615,3.88184,0.31201],["Q",3.88184,0.31787,3.88672,0.32397],["Q",3.8916,0.33008,3.89355,0.33691],["Q",3.86133,0.33545,3.82617,0.32202],["Q",3.79102,0.30859,3.76587,0.29199],["Q",3.74072,0.27539,3.72412,0.26025],["Q",3.70752,0.24512,3.70752,0.23804],["Q",3.70752,0.23096,3.72998,0.22656],["Q",3.83105,0.20654,3.86279,0.19189],["Q",3.89453,0.17725,3.90674,0.15869],["Q",3.91895,0.14014,3.91895,0.125],["Q",3.91895,0.09375,3.89404,0.06592],["Q",3.86914,0.03809,3.83252,0.02051],["Q",3.75391,-0.01807,3.69556,-0.01807],["Q",3.63721,-0.01807,3.61499,-0.00024],["Q",3.59277,0.01758,3.59277,0.04199],["Q",3.59277,0.06641,3.60522,0.08716],["Q",3.61768,0.10791,3.63721,0.10791],["Q",3.65674,0.10791,3.65674,0.09766],["Z"]]],"A":[["M",-0.00781,0.0],["L",-0.00781,0.05908],["L",0.05176,0.05908],["L",0.32617,0.729],["L",0.44287,0.729],["L",0.71777,0.05908],["L",0.78711,0.05908],["L",0.78711,0.0],["L",0.4458,0.0],["L",0.4458,0.05908],["L",0.51709,0.05908],["L",0.45703,0.20801],["L",0.18311,0.20801],["L",0.12207,0.05908],["L",0.20898,0.05908],["L",0.20898,0.0],["Z"],["M",0.20703,0.26709],["L",0.43311,0.26709],["L",0.3208,0.5459],["Z"]],"suits":{"s":[["M",0.44922,0.72852],["Q",0.49512,0.64697,0.60059,0.51221],["Q",0.71631,0.37646,0.71924,0.34863],["Q",0.73828,0.30713,0.73828,0.26807],["L",0.73828,0.24854],["Q",0.73828,0.16699,0.65918,0.12012],["Q",0.6333,0.10938,0.60205,0.10938],["Q",0.52686,0.10938,0.48047,0.21729],["L",0.45996,0.21729],["L",0.45996,0.21143],["Q",0.45996,0.07324,0.50049,0.0],["L",0.39551,0.0],["L",0.39551,0.00293],["Q",0.43701,0.07666,0.43701,0.21582],["L",0.43555,0.21729],["L",0.41699,0.21729],["L",0.39404,0.17432],["Q",0.35254,0.10938,0.29053,0.10938],["Q",0.19922,0.10938,0.16211,0.21143],["L",0.15771,0.24707],["L",0.15771,0.26953],["Q",0.15771,0.35889,0.24902,0.45801],["Q",0.40283,0.64648,0.44629,0.72705],["L",0.44775,0.72852],["Z"]],"h":[["M",0.26953,0.72852],["Q",0.36865,0.72852,0.42529,0.61377],["Q",0.4458,0.56836,0.44678,0.54443],["L",0.44824,0.54443],["Q",0.46533,0.62354,0.51025,0.67578],["Q",0.56299,0.72852,0.62891,0.72852],["Q",0.73096,0.72852,0.79248,0.61914],["Q",0.80811,0.57861,0.80811,0.54297],["Q",0.80811,0.4209,0.70654,0.31006],["L",0.44824,0.0],["L",0.44531,0.0],["L",0.1709,0.33643],["Q",0.08887,0.43652,0.08887,0.54297],["Q",0.08887,0.646,0.18604,0.70654],["Q",0.22705,0.72852,0.26953,0.72852],["Z"]],"d":[["M",0.44824,0.72852],["L",0.69385,0.40967],["Q",0.72754,0.36816,0.72754,0.36182],["L",0.44824,0.0],["Q",0.44238,0.00391,0.16797,0.36182],["Q",0.16797,0.36865,0.22217,0.43604],["Z"]],"c":[["M",0.44873,0.72852],["Q",0.55322,0.72852,0.60254,0.61768],["Q",0.60889,0.59229,0.61035,0.56494],["Q",0.61035,0.50781,0.55176,0.42969],["L",0.52246,0.40039],["L",0.52393,0.40039],["Q",0.56006,0.41406,0.60107,0.41406],["L",0.61035,0.41406],["Q",0.72656,0.41406,0.77344,0.31543],["Q",0.78467,0.2832,0.78467,0.25391],["Q",0.78467,0.15381,0.68262,0.10303],["Q",0.66309,0.09717,0.62842,0.09424],["Q",0.51025,0.09424,0.46094,0.22803],["L",0.45947,0.22803],["L",0.45947,0.22363],["Q",0.45947,0.05615,0.49951,0.00293],["L",0.49951,0.0],["L",0.39795,0.0],["L",0.39502,0.00293],["Q",0.43652,0.06543,0.43652,0.22803],["L",0.43652,0.22949],["L",0.43506,0.22949],["Q",0.38623,0.09424,0.2666,0.09424],["Q",0.17334,0.09424,0.12354,0.19238],["Q",0.11133,0.22559,0.11133,0.25391],["Q",0.11133,0.36768,0.23145,0.4082],["Q",0.26367,0.41406,0.28857,0.41406],["L",0.29297,0.41406],["Q",0.33496,0.41406,0.37305,0.40039],["L",0.37451,0.40039],["L",0.37451,0.40186],["Q",0.3335,0.43652,0.31934,0.47021],["Q",0.29004,0.52393,0.29004,0.56348],["L",0.29004,0.57031],["Q",0.29004,0.66846,0.39502,0.71924],["Q",0.42969,0.72852,0.44873,0.72852],["Z"]]}};
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "low-power" });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.15;
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  box.appendChild(renderer.domElement);
+
+  const scene = new THREE.Scene();
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  const room = new RoomEnvironment(renderer);
+  // bright light strips + a dark floor give chrome its sharp highlights and horizon line
+  const strip = new THREE.MeshBasicMaterial({ color: new THREE.Color(12, 12, 13) });
+  for (const [y, z, w] of [[4.5, -2, 14], [2.2, -6, 10], [-0.5, 6, 12]]) {
+    const m = new THREE.Mesh(new THREE.BoxGeometry(w, 0.35, 0.35), strip); m.position.set(0, y, z); room.add(m);
+  }
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.MeshBasicMaterial({ color: 0x050506 }));
+  floor.rotation.x = -Math.PI / 2; floor.position.y = -2.2; room.add(floor);
+  scene.environment = pmrem.fromScene(room, 0.02).texture;
+  const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 50);
+  camera.position.set(0, 0.05, 4.5);
+
+  const key = new THREE.DirectionalLight(0xffffff, 2.2); key.position.set(2, 3, 4); scene.add(key);
+  const rim = new THREE.DirectionalLight(0xb8c4ff, 1.4); rim.position.set(-3, 1, -2); scene.add(rim);
+
+  const chrome = new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 1, roughness: 0.06 });
+  const chromeDark = new THREE.MeshStandardMaterial({ color: 0xd8dbe2, metalness: 1, roughness: 0.22 });
+  const face = new THREE.MeshPhysicalMaterial({ color: 0x050506, metalness: 0, roughness: 0.35, clearcoat: 1, clearcoatRoughness: 0.15, envMapIntensity: 0.25 });
+
+  // glyph outline commands -> three.js shapes
+  function shapesOf(cmds, s, ox, oy) {
+    const p = new THREE.ShapePath();
+    for (const c of cmds) {
+      const v = c.slice(1).map((n, i) => (i % 2 ? n * s + oy : n * s + ox));
+      if (c[0] === "M") p.moveTo(v[0], v[1]);
+      else if (c[0] === "L") p.lineTo(v[0], v[1]);
+      else if (c[0] === "Q") p.quadraticCurveTo(v[0], v[1], v[2], v[3]);
+      else if (c[0] === "C") p.bezierCurveTo(v[0], v[1], v[2], v[3], v[4], v[5]);
+    }
+    // Sort contours into outlines and holes by nesting (not winding), so every font draws correctly
+    const subs = p.subPaths.map(sp => ({ sp, pts: sp.getPoints(8) })).filter(o => o.pts.length > 2);
+    const inside = (pt, poly) => { let c = false;
+      for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+        const a = poly[i], b = poly[j];
+        if ((a.y > pt.y) !== (b.y > pt.y) && pt.x < (b.x - a.x) * (pt.y - a.y) / (b.y - a.y) + a.x) c = !c; }
+      return c; };
+    subs.forEach(o => { o.depth = subs.filter(q => q !== o && inside(o.pts[0], q.pts)).length; });
+    const out = [];
+    subs.filter(o => o.depth % 2 === 0).forEach(o => {
+      const sh = new THREE.Shape(); sh.curves = o.sp.curves; sh.currentPoint = o.sp.currentPoint;
+      subs.filter(h => h.depth === o.depth + 1 && inside(h.pts[0], o.pts)).forEach(h => {
+        const hp = new THREE.Path(); hp.curves = h.sp.curves; sh.holes.push(hp); });
+      out.push(sh);
+    });
+    return out;
+  }
+  function rounded(w, h, r) {
+    const s = new THREE.Shape(), x = -w / 2, y = -h / 2;
+    s.moveTo(x + r, y); s.lineTo(x + w - r, y); s.quadraticCurveTo(x + w, y, x + w, y + r);
+    s.lineTo(x + w, y + h - r); s.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    s.lineTo(x + r, y + h); s.quadraticCurveTo(x, y + h, x, y + h - r);
+    s.lineTo(x, y + r); s.quadraticCurveTo(x, y, x + r, y);
+    return s;
+  }
+  const ext = (shapes, depth, bevel) => new THREE.ExtrudeGeometry(shapes, {
+    depth, bevelEnabled: true, bevelThickness: bevel, bevelSize: bevel * 0.8, bevelSegments: 4, curveSegments: 14 });
+  function centered(cmds, size) {
+    const g = new THREE.ExtrudeGeometry(shapesOf(cmds, 1, 0, 0), { depth: 0.001, bevelEnabled: false });
+    g.computeBoundingBox(); const b = g.boundingBox; g.dispose();
+    const k = size / Math.max(b.max.x - b.min.x, b.max.y - b.min.y);
+    return { k, ox: -(b.min.x + b.max.x) / 2 * k, oy: -(b.min.y + b.max.y) / 2 * k };
+  }
+
+  const logo = new THREE.Group(); scene.add(logo);
+
+  // ---- four aces, fanned like the logo
+  const W = 0.62, H = 0.88, suits = ["s", "h", "c", "d"];
+  const frameShape = rounded(W, H, 0.06); frameShape.holes.push(rounded(W - 0.06, H - 0.06, 0.035));
+  const frameGeo = ext(frameShape, 0.018, 0.006);
+  const faceGeo = new THREE.ExtrudeGeometry(rounded(W - 0.04, H - 0.04, 0.045), { depth: 0.012, bevelEnabled: false });
+  const fan = new THREE.Group(); logo.add(fan);
+  suits.forEach((st, i) => {
+    const card = new THREE.Group();
+    card.add(new THREE.Mesh(faceGeo, face));
+    const fr = new THREE.Mesh(frameGeo, chrome); fr.position.z = -0.003; card.add(fr);
+    const big = centered(SH.suits[st], 0.3);
+    const bigM = new THREE.Mesh(ext(shapesOf(SH.suits[st], big.k, big.ox, big.oy), 0.02, 0.008), chrome);
+    bigM.position.z = 0.012; card.add(bigM);
+    const a = centered(SH.A, 0.12);
+    for (const flip of [1, -1]) {
+      const corner = new THREE.Group();
+      const am = new THREE.Mesh(ext(shapesOf(SH.A, a.k, a.ox, a.oy), 0.012, 0.004), chromeDark); corner.add(am);
+      const sm = centered(SH.suits[st], 0.07);
+      const sM = new THREE.Mesh(ext(shapesOf(SH.suits[st], sm.k, sm.ox, sm.oy), 0.012, 0.004), chromeDark);
+      sM.position.y = -0.1; corner.add(sM);
+      corner.position.set(-W / 2 + 0.085, H / 2 - 0.1, 0.012);
+      if (flip < 0) { corner.rotation.z = Math.PI; corner.position.set(W / 2 - 0.085, -H / 2 + 0.1, 0.012); }
+      card.add(corner);
+    }
+    const ang = (-1.5 + i) * 0.33;
+    const pivot = new THREE.Group(); pivot.rotation.z = -ang; pivot.position.set(0, -0.55, i * 0.03); card.position.y = 0.55 + H / 2 - 0.15;
+    pivot.add(card); fan.add(pivot);
+  });
+  fan.position.set(0.05, 0.05, -0.15);
+
+  // ---- "High Class" script, thick chrome in front
+  const t = centered(SH.text.flat(), 2.3);
+  const text = new THREE.Mesh(ext(SH.text.flatMap(g => shapesOf(g, t.k, t.ox, t.oy)), 0.07, 0.009), chrome);   // per letter, so overlapping script letters never cut holes in each other
+  text.position.set(0, -0.28, 0.25);
+  logo.add(text);
+
+  function size() {
+    const w = box.clientWidth, h = box.clientHeight;
+    renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+  }
+  size(); addEventListener("resize", size);
+
+  let mx = 0, my = 0;
+  addEventListener("pointermove", e => { mx = e.clientX / innerWidth - 0.5; my = e.clientY / innerHeight - 0.5; });
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const clock = new THREE.Clock();
+  renderer.setAnimationLoop(() => {
+    const s = still ? 0 : clock.getElapsedTime();
+    logo.rotation.y += ((Math.sin(s * 0.55) * 0.55 + mx * 0.5) - logo.rotation.y) * 0.08;
+    logo.rotation.x += ((Math.sin(s * 0.4) * 0.06 + my * 0.25) - logo.rotation.x) * 0.08;
+    logo.position.y = Math.sin(s * 1.1) * 0.03;
+    renderer.render(scene, camera);
+  });
+  box.classList.add("live");
+} catch (e) {
+  console.warn("3D logo unavailable, using the image instead", e);
+}
+</script>
 </body>
 </html>
